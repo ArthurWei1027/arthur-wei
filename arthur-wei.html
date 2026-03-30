@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>魏謙任 Arthur Wei — 數位行銷策略</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400;600&family=Noto+Sans+TC:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0f1f3d;
+    --navy-mid: #1a3260;
+    --navy-light: #2a4a8a;
+    --white: #ffffff;
+    --gray-100: #f4f5f7;
+    --gray-200: #e8eaee;
+    --gray-400: #9aa3b2;
+    --gray-600: #5a6478;
+    --accent: #c8a96e;
+    --text: #1a2340;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans TC', sans-serif;
+    background: var(--white);
+    color: var(--text);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 1.4rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(255,255,255,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .nav-logo {
+    font-family: 'DM Serif Display', serif;
+    font-size: 1.1rem;
+    color: var(--navy);
+    letter-spacing: 0.05em;
+  }
+  .nav-links {
+    display: flex;
+    gap: 2.4rem;
+    list-style: none;
+  }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--gray-600);
+    font-size: 0.82rem;
+    letter-spacing: 0.12em;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--navy); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 80% at 70% 50%, rgba(42,74,138,0.5) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(200,169,110,0.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+  }
+  .hero-left {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 8rem 5rem 6rem 6rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.2s forwards;
+  }
+  .hero-name {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(3rem, 5vw, 4.8rem);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 0.4rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.35s forwards;
+  }
+  .hero-name-en {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    color: var(--accent);
+    letter-spacing: 0.05em;
+    margin-bottom: 2rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.5s forwards;
+  }
+  .hero-tagline {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.8;
+    max-width: 400px;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.65s forwards;
+  }
+  .hero-quote {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.8rem;
+    opacity: 0;
+    animation: fadeUp 0.8s 0.8s forwards;
+  }
+  .hero-quote::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+  }
+  .hero-quote span {
+    font-size: 0.85rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    font-style: italic;
+  }
+  .hero-right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 8rem 5rem 6rem 3rem;
+    position: relative;
+    z-index: 2;
+  }
+  .hero-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 2.4rem;
+    opacity: 0;
+    animation: fadeIn 1s 1s forwards;
+  }
+  .stat-item {
+    border-left: 1px solid rgba(200,169,110,0.4);
+    padding-left: 1.6rem;
+  }
+  .stat-num {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.8rem;
+    color: var(--white);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 0.78rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.12em;
+    margin-top: 0.3rem;
+  }
+  .hero-scroll {
+    position: absolute;
+    bottom: 2.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeIn 1s 1.4s forwards;
+  }
+  .hero-scroll span {
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.3);
+  }
+  .scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.3), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* SECTIONS */
+  section {
+    padding: 8rem 0;
+  }
+  .container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 4rem;
+  }
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+  }
+  .section-title {
+    font-family: 'Noto Serif TC', serif;
+    font-size: clamp(1.8rem, 3vw, 2.6rem);
+    font-weight: 300;
+    color: var(--navy);
+    line-height: 1.3;
+    margin-bottom: 4rem;
+  }
+
+  /* ABOUT */
+  #about { background: var(--white); }
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: start;
+  }
+  .about-text p {
+    font-size: 0.95rem;
+    color: var(--gray-600);
+    line-height: 2;
+    margin-bottom: 1.4rem;
+  }
+  .about-text p strong {
+    color: var(--navy);
+    font-weight: 500;
+  }
+  .about-traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    margin-top: 2rem;
+  }
+  .trait-tag {
+    padding: 0.4rem 1rem;
+    border: 1px solid var(--gray-200);
+    font-size: 0.78rem;
+    color: var(--gray-600);
+    letter-spacing: 0.05em;
+  }
+  .about-core {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+  .core-item {
+    padding: 1.8rem 2rem;
+    background: var(--gray-100);
+    border-top: 2px solid var(--navy);
+  }
+  .core-item h4 {
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    color: var(--navy);
+    font-weight: 500;
+    margin-bottom: 0.8rem;
+  }
+  .core-item p {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.8;
+  }
+
+  /* EXPERIENCE */
+  #experience { background: var(--gray-100); }
+  .timeline {
+    position: relative;
+    padding-left: 3rem;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--navy), rgba(15,31,61,0.1));
+  }
+  .timeline-item {
+    position: relative;
+    margin-bottom: 3.5rem;
+    opacity: 0;
+    transform: translateX(-16px);
+    transition: all 0.6s ease;
+  }
+  .timeline-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .timeline-dot {
+    position: absolute;
+    left: -3.4rem;
+    top: 6px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: var(--navy);
+    border: 2px solid var(--white);
+    box-shadow: 0 0 0 1px var(--navy);
+  }
+  .timeline-dot.current {
+    background: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent), 0 0 12px rgba(200,169,110,0.4);
+  }
+  .timeline-period {
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    color: var(--gray-400);
+    margin-bottom: 0.5rem;
+  }
+  .timeline-role {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: var(--navy);
+    margin-bottom: 0.2rem;
+  }
+  .timeline-company {
+    font-size: 0.82rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    letter-spacing: 0.05em;
+  }
+  .timeline-desc {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    line-height: 1.9;
+    max-width: 640px;
+  }
+  .timeline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-top: 1rem;
+  }
+  .timeline-tag {
+    font-size: 0.7rem;
+    padding: 0.25rem 0.7rem;
+    background: rgba(15,31,61,0.06);
+    color: var(--navy);
+    letter-spacing: 0.05em;
+  }
+
+  /* SKILLS */
+  #skills { background: var(--white); }
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--gray-200);
+  }
+  .skill-block {
+    padding: 2.4rem 2rem;
+    border-right: 1px solid var(--gray-200);
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .skill-block:nth-child(3n) { border-right: none; }
+  .skill-block:nth-last-child(-n+3) { border-bottom: none; }
+  .skill-block h4 {
+    font-size: 0.72rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 1.2rem;
+  }
+  .skill-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .skill-list li {
+    font-size: 0.85rem;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+  .skill-list li::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: var(--navy);
+    flex-shrink: 0;
+  }
+
+  /* CERTS */
+  #certs { background: var(--navy); }
+  #certs .section-title { color: var(--white); }
+  .certs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1px;
+    background: rgba(255,255,255,0.08);
+  }
+  .cert-card {
+    background: var(--navy);
+    padding: 2rem 1.8rem;
+    border: 1px solid rgba(255,255,255,0.07);
+    transition: background 0.3s;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: all 0.5s ease;
+  }
+  .cert-card.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .cert-card:hover { background: var(--navy-mid); }
+  .cert-platform {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+  }
+  .cert-name {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.5;
+  }
+
+  /* CONTACT */
+  #contact { background: var(--gray-100); }
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6rem;
+    align-items: center;
+  }
+  .contact-text .section-title { margin-bottom: 1.4rem; }
+  .contact-text p {
+    font-size: 0.9rem;
+    color: var(--gray-600);
+    line-height: 1.9;
+  }
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.8rem;
+  }
+  .contact-row {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    padding-bottom: 1.8rem;
+    border-bottom: 1px solid var(--gray-200);
+  }
+  .contact-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .contact-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .contact-icon svg { width: 16px; height: 16px; fill: none; stroke: white; stroke-width: 1.5; }
+  .contact-detail label {
+    font-size: 0.68rem;
+    letter-spacing: 0.18em;
+    color: var(--gray-400);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 0.3rem;
+  }
+  .contact-detail a, .contact-detail span {
+    font-size: 0.9rem;
+    color: var(--navy);
+    text-decoration: none;
+    font-weight: 400;
+  }
+  .contact-detail a:hover { color: var(--accent); }
+
+  /* FOOTER */
+  footer {
+    background: var(--navy);
+    padding: 2.5rem 4rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  footer p {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.1em;
+  }
+  footer .footer-name {
+    font-family: 'DM Serif Display', serif;
+    font-style: italic;
+    color: rgba(255,255,255,0.5);
+    font-size: 0.95rem;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 0.8; transform: scaleY(1.2); }
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 2rem; }
+    .nav-links { gap: 1.4rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { display: none; }
+    .hero-left { padding: 8rem 2.5rem 6rem; }
+    .about-grid, .contact-inner { grid-template-columns: 1fr; gap: 3rem; }
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+    .skills-grid .skill-block:nth-child(2n) { border-right: none; }
+    .skills-grid .skill-block:nth-child(3n) { border-right: 1px solid var(--gray-200); }
+    .container { padding: 0 2rem; }
+    section { padding: 5rem 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Arthur Wei</div>
+  <ul class="nav-links">
+    <li><a href="#about">關於我</a></li>
+    <li><a href="#experience">工作經歷</a></li>
+    <li><a href="#skills">技能</a></li>
+    <li><a href="#certs">證照</a></li>
+    <li><a href="#contact">聯絡</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid-lines"></div>
+  <div class="hero-left">
+    <p class="hero-eyebrow">數位行銷策略 / Digital Marketing</p>
+    <h1 class="hero-name">魏謙任</h1>
+    <p class="hero-name-en">Arthur Wei</p>
+    <p class="hero-tagline">
+      擁有逾 10 年數位廣告實戰經驗，<br>
+      橫跨 Google、Meta、LINE、TikTok 等平台，<br>
+      以數據洞察驅動品牌成長。
+    </p>
+    <div class="hero-quote">
+      <span>"時間價值最大化"</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">年數位行銷資歷</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">國際廣告認證</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100</div>
+        <div class="stat-label">座百岳完登紀錄</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <span>SCROLL</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="container">
+    <p class="section-label">About</p>
+    <h2 class="section-title">以策略思維，<br>驅動每一次廣告決策</h2>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          畢業於東南科技大學工業工程管理系，以系統化思維切入數位行銷領域，
+          從 2014 年踏入產業至今，歷經口碑行銷、媒體企劃、廣告投放到專案管理，
+          全鏈路累積超過 <strong>10 年實戰經驗</strong>。
+        </p>
+        <p>
+          擅長跨平台廣告優化（Google、Meta、LINE、TikTok、百度等），
+          熟練運用 <strong>GA4、GTM、Looker Studio</strong> 進行歸因分析與視覺化報表，
+          曾服務國泰、興富發、寶佳機構等知名品牌，
+          並在國際電商品牌獨立執行全球十多國 PMax 廣告優化。
+        </p>
+        <p>
+          相信數據與創意並不對立——數據是羅盤，創意是風帆，
+          兩者兼備才能讓品牌駛向正確方向。
+        </p>
+        <div class="about-traits">
+          <span class="trait-tag">積極自律</span>
+          <span class="trait-tag">數據導向</span>
+          <span class="trait-tag">跨部門溝通</span>
+          <span class="trait-tag">團隊領導</span>
+          <span class="trait-tag">快速學習</span>
+          <span class="trait-tag">高抗壓性</span>
+        </div>
+      </div>
+      <div class="about-core">
+        <div class="core-item">
+          <h4>廣告投放 & 優化</h4>
+          <p>Google、Meta、LINE、TikTok、Bing、百度多平台操作，具備全渠道媒體策略規劃能力，擅長 A/B Testing 與素材迭代。</p>
+        </div>
+        <div class="core-item">
+          <h4>數據分析 & 歸因</h4>
+          <p>GA4 深度應用、GTM 追蹤埋設、Looker Studio 視覺化報表，將數據轉化為可執行的行銷洞察。</p>
+        </div>
+        <div class="core-item">
+          <h4>專案管理 & 客戶關係</h4>
+          <p>擅長跨部門協作、時程控管與預算管理，曾帶領 9–12 人投放團隊，並建立標準作業程序（SOP）。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="container">
+    <p class="section-label">Experience</p>
+    <h2 class="section-title">工作歷程</h2>
+    <div class="timeline">
+
+      <div class="timeline-item">
+        <div class="timeline-dot current"></div>
+        <p class="timeline-period">2025.06 — 現在</p>
+        <h3 class="timeline-role">數位行銷專案經理</h3>
+        <p class="timeline-company">（廣告行銷公關業，台北信義區）</p>
+        <p class="timeline-desc">
+          擔任第一線客戶窗口，統籌各社群平台年度策略，整合社群內容與廣告投放落實「內容導向投放」，
+          並以 GA4 產出具洞察力結案報告。負責專案時程、預算分配及利潤管理。
+        </p>
+        <div class="timeline-tags">
+          <span class="timeline-tag">Account Management</span>
+          <span class="timeline-tag">Social Media Strategy</span>
+          <span class="timeline-tag">GA4</span>
+          <span class="timeline-tag">GTM</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-period">2024.07 — 2025.06</p>
+        <h3 class="timeline-role">數位行銷投放部經理</h3>
+        <p class="timeline-company">立炘數位行銷有限公司（管理 9–12 人，台北中山區）</p>
+        <p class="timeline-desc">
+          帶領投放團隊服務電商、品牌、服務類客戶，制定全渠道媒體策略，持續 A/B Testing 優化素材與受眾。
+          建立 SOP 提升團隊效率，定期主辦技術分享。參與 Pitch 提案，爭取更大預算規模。
+        </p>
+        <div class="timeline-tags">
+          <span class="timeline-tag">團隊管理</span>
+          <span class="timeline-tag">KPI/ROI</span>
+          <span class="timeline-tag">A/B Testing</span>
+          <span class="timeline-tag">Google Ads</span>
+          <span class="timeline-tag">Meta Ads</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-period">2021.08 — 2024.07</p>
+        <h3 class="timeline-role">品牌行銷經理</h3>
+        <p class="timeline-company">柏媒網絡科技有限公司（管理 9–12 人，台北中山區）</p>
+        <p class="timeline-desc">
+          服務房產、電商、汽車、金融、健康等多元產業，曾獨立執行美國電商品牌全球十多國 PMax 廣告。
+          熟悉 Google、Meta、TikTok、Bing、百度、搜狗等平台，
+          服務國泰、興富發、寶佳機構、海悅、甲山林等知名建案。
+        </p>
+        <div class="timeline-tags">
+          <span class="timeline-tag">PMax</span>
+          <span class="timeline-tag">多國廣告</span>
+          <span class="timeline-tag">房產行銷</span>
+          <span class="timeline-tag">Looker Studio</span>
+          <span class="timeline-tag">SEO</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-period">2020.04 — 2021.08</p>
+        <h3 class="timeline-role">媒體企劃主任</h3>
+        <p class="timeline-company">香港商群邑有限公司台灣分公司（WPP，管理 4 人，台北松山區）</p>
+        <p class="timeline-desc">
+          負責製藥業、生活用品業媒體企劃與執行，擅長媒體策略建議與客戶溝通。
+          在職期間考取 Google Guru Blue Belt 與 LINE LAP 等多項數位認證。
+        </p>
+        <div class="timeline-tags">
+          <span class="timeline-tag">媒體策略</span>
+          <span class="timeline-tag">製藥業</span>
+          <span class="timeline-tag">數位認證</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-period">2017.05 — 2020.04</p>
+        <h3 class="timeline-role">媒體企劃資深專員</h3>
+        <p class="timeline-company">浩騰媒體股份有限公司（OMG，管理 4 人，台北中山區）</p>
+        <p class="timeline-desc">
+          服務銀行、進口汽車、電腦、美妝、FMCG 等各領域，主力社群媒體投放，
+          兼具 Search 與 Programmatic 廣告經驗。執行專案曾榮獲國際型數位廣告大獎。
+        </p>
+        <div class="timeline-tags">
+          <span class="timeline-tag">國際獎項</span>
+          <span class="timeline-tag">社群投放</span>
+          <span class="timeline-tag">Programmatic</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-period">2015.06 — 2017.05</p>
+        <h3 class="timeline-role">行銷企劃專員</h3>
+        <p class="timeline-company">席恩資訊股份有限公司（台北大安區）</p>
+        <p class="timeline-desc">
+          負責遊戲與電信類產業口碑行銷，主導提案與專案執行。
+          豐富的 KOL、直播主合作與實體活動執行經驗，任職期間成功爭取超過原訂 3 倍執行預算。
+        </p>
+        <div class="timeline-tags">
+          <span class="timeline-tag">口碑行銷</span>
+          <span class="timeline-tag">KOL合作</span>
+          <span class="timeline-tag">遊戲產業</span>
+        </div>
+      </div>
+
+      <div class="timeline-item">
+        <div class="timeline-dot"></div>
+        <p class="timeline-period">2014.07 — 2015.06</p>
+        <h3 class="timeline-role">網路行銷企劃執行</h3>
+        <p class="timeline-company">逍邦網路行銷（台北中山區）</p>
+        <p class="timeline-desc">
+          服務美妝、育兒、食品等品牌，負責社群內容行銷與口碑操作，
+          有效提升多個品牌臉書粉絲互動率。入行第一份工作，奠定內容創作基礎。
+        </p>
+        <div class="timeline-tags">
+          <span class="timeline-tag">內容行銷</span>
+          <span class="timeline-tag">社群小編</span>
+          <span class="timeline-tag">文案撰寫</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="container">
+    <p class="section-label">Skills</p>
+    <h2 class="section-title">專業技能</h2>
+    <div class="skills-grid">
+      <div class="skill-block">
+        <h4>廣告平台</h4>
+        <ul class="skill-list">
+          <li>Google Ads（Search / Display / Video / Shopping / PMax）</li>
+          <li>Meta Ads（FB / IG）</li>
+          <li>LINE Ads Platform</li>
+          <li>TikTok Ads</li>
+          <li>Bing / 百度 / 搜狗</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <h4>數據分析</h4>
+        <ul class="skill-list">
+          <li>Google Analytics 4（GA4）</li>
+          <li>Google Tag Manager（GTM）</li>
+          <li>Looker Studio（Data Studio）</li>
+          <li>Search Ads 360</li>
+          <li>Similar Web / Fanpage Karma</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <h4>專案管理</h4>
+        <ul class="skill-list">
+          <li>跨部門溝通協作</li>
+          <li>預算規劃與利潤管理</li>
+          <li>SOP 建立與流程優化</li>
+          <li>團隊培育與技術分享</li>
+          <li>Pitch 提案與簡報</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <h4>內容 & 策略</h4>
+        <ul class="skill-list">
+          <li>廣告文案撰寫</li>
+          <li>社群平台年度策略規劃</li>
+          <li>KOL / 網紅合作操作</li>
+          <li>A/B Testing 素材迭代</li>
+          <li>競品分析</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <h4>網站 & 技術</h4>
+        <ul class="skill-list">
+          <li>WordPress 網站架設</li>
+          <li>SEO 基礎優化</li>
+          <li>Google AdSense</li>
+          <li>Pixel / 轉換追蹤埋設</li>
+          <li>AutoCAD / Solidworks</li>
+        </ul>
+      </div>
+      <div class="skill-block">
+        <h4>辦公室工具</h4>
+        <ul class="skill-list">
+          <li>Excel（進階）</li>
+          <li>PowerPoint</li>
+          <li>Word / Outlook</li>
+          <li>SAP / ERP</li>
+          <li>中文打字 75–100 字/分</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTS -->
+<section id="certs">
+  <div class="container">
+    <p class="section-label">Certifications</p>
+    <h2 class="section-title">專業認證</h2>
+    <div class="certs-grid">
+      <div class="cert-card">
+        <p class="cert-platform">Google</p>
+        <p class="cert-name">Google Ads Search Certification</p>
+      </div>
+      <div class="cert-card">
+        <p class="cert-platform">Google</p>
+        <p class="cert-name">Google Ads Display Certification</p>
+      </div>
+      <div class="cert-card">
+        <p class="cert-platform">Google</p>
+        <p class="cert-name">Google Ads Video Certification</p>
+      </div>
+      <div class="cert-card">
+        <p class="cert-platform">Google</p>
+        <p class="cert-name">Google Ads Shopping Certification</p>
+      </div>
+      <div class="cert-card">
+        <p class="cert-platform">Google</p>
+        <p class="cert-name">Google Analytics Certification</p>
+      </div>
+      <div class="cert-card">
+        <p class="cert-platform">Google</p>
+        <p class="cert-name">Google Guru Blue Belt</p>
+      </div>
+      <div class="cert-card">
+        <p class="cert-platform">Google</p>
+        <p class="cert-name">Manage campaigns in Search Ads 360</p>
+      </div>
+      <div class="cert-card">
+        <p class="cert-platform">Google</p>
+        <p class="cert-name">Optimize performance in Search Ads 360</p>
+      </div>
+      <div class="cert-card">
+        <p class="cert-platform">Meta / Facebook</p>
+        <p class="cert-name">Certified Media Buying Professional</p>
+      </div>
+      <div class="cert-card">
+        <p class="cert-platform">Meta / Facebook</p>
+        <p class="cert-name">Certified Media Planning Professional</p>
+      </div>
+      <div class="cert-card">
+        <p class="cert-platform">LINE</p>
+        <p class="cert-name">LINE Ads Platform Digital Course Certificate</p>
+      </div>
+      <div class="cert-card">
+        <p class="cert-platform">PPC</p>
+        <p class="cert-name">Performance Max Mastery Course Certificate</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-text">
+        <p class="section-label">Contact</p>
+        <h2 class="section-title">期待與您<br>進一步交流</h2>
+        <p>如有任何合作機會或職缺洽談，歡迎透過以下方式與我聯繫。<br>電話聯絡時間：週一至週日，上午 9:00 – 晚上 9:30。</p>
+      </div>
+      <div class="contact-info">
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          </div>
+          <div class="contact-detail">
+            <label>Email</label>
+            <a href="mailto:weichianren@gmail.com">weichianren@gmail.com</a>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.02z"/></svg>
+          </div>
+          <div class="contact-detail">
+            <label>手機</label>
+            <a href="tel:0932252233">0932-252-233</a>
+          </div>
+        </div>
+        <div class="contact-row">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="contact-detail">
+            <label>所在地</label>
+            <span>台北市信義區</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p class="footer-name">Arthur Wei</p>
+  <p>© 2025 魏謙任 · 數位行銷策略</p>
+</footer>
+
+<script>
+  // Intersection Observer for scroll animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.timeline-item, .cert-card').forEach((el, i) => {
+    el.style.transitionDelay = `${(i % 4) * 0.1}s`;
+    observer.observe(el);
+  });
+
+  // Nav scroll effect
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 60) {
+      nav.style.boxShadow = '0 2px 24px rgba(15,31,61,0.08)';
+    } else {
+      nav.style.boxShadow = 'none';
+    }
+  });
+</script>
+</body>
+</html>
