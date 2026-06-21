@@ -27,7 +27,8 @@
     font-family: 'Noto Sans TC', sans-serif;
     background: var(--white);
     color: var(--text);
-    font-weight: 300;
+    /* 【修改點】將預設字重從 300 改為 400，解決正文過細、難以閱讀的問題 */
+    font-weight: 400; 
     overflow-x: hidden;
   }
 
@@ -111,6 +112,7 @@
   .hero-name {
     font-family: 'Noto Serif TC', serif;
     font-size: clamp(3rem, 5vw, 4.8rem);
+    /* 這裡保留 300，確保大標題依然有簡約的高級感 */
     font-weight: 300;
     color: var(--white);
     line-height: 1.1;
@@ -231,6 +233,7 @@
   .section-title {
     font-family: 'Noto Serif TC', serif;
     font-size: clamp(1.8rem, 3vw, 2.6rem);
+    /* 這裡保留 300，確保區塊大標題依然有簡約的高級感 */
     font-weight: 300;
     color: var(--navy);
     line-height: 1.3;
